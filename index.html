@@ -1,69 +1,81 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Monster Slayer</title>
-    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
-    <link rel="stylesheet" href="css/foundation.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
-  </head>
-  <body>
-    <div id="app">
+
+<head>
+  <title>Monster Slayer</title>
+  <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+  <!-- <link rel="stylesheet" href="css/foundation.min.css" /> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="display-4">Monster Slayer Game</h1>
+        <p class="lead">Let's Defeat this Monster and make a world of peace !</p>
+        <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+      </div>
+
       <section class="row">
-        <div class="small-6 columns">
-          <h1 class="text-center">YOU</h1>
+        <div class="col-sm-6">
+          <h2 class="text-center">YOU</h2>
           <div class="healthbar">
-            <div
-              class="healthbar text-center"
-              style="background-color: green; margin: 0; color: white;"
-              :style="{width: playerHealth + '%'}"
-            >
+            <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;"
+              :style="{width: playerHealth + '%'}">
               {{playerHealth}}
             </div>
           </div>
         </div>
-        <div class="small-6 columns">
-          <h1 class="text-center">MONSTER</h1>
+        <div class="col-sm-6">
+          <h2 class="text-center">MONSTER</h2>
           <div class="healthbar">
-            <div
-              class="healthbar text-center"
-              style="background-color: green; margin: 0; color: white;"
-              :style="{width: monsterHealth + '%'}"
-            >
+            <div class="healthbar text-center" style="background-color: green; margin: 0; color: white;"
+              :style="{width: monsterHealth + '%'}">
               {{monsterHealth}}
             </div>
           </div>
         </div>
       </section>
-      <section class="row controls" v-if="!gameIsRunning">
-        <div class="small-12 columns">
-          <button id="start-game" @click="startGame">
-            START NEW GAME
-          </button>
-        </div>
-      </section>
-      <section class="row controls" v-else>
-        <div class="small-12 columns">
-          <button id="attack" @click="attack">ATTACK</button>
-          <button id="special-attack" @click="specialAttack">
-            SPECIAL ATTACK
-          </button>
-          <button id="heal" @click="heal">HEAL</button>
-          <button id="give-up" @click="giveUp">GIVE UP</button>
-        </div>
-      </section>
-      <section class="row log" v-if="turns.length > 0">
-        <div class="small-12 columns">
-          <ul>
-            <li
-              v-for="turn in turns"
-              :class="{'player-turn': turn.isPlayer,'monster-turn': !turn.isPlayer}"
-            >
-              {{turn.text}}
-            </li>
-          </ul>
-        </div>
-      </section>
+      <transition name="flip" mode="out-in">
+        <section class="row controls" v-if="!gameIsRunning" key="startButtons">
+          <div class="col-sm-12">
+            <button class="btn btn-success" @click="startGame">
+              START NEW GAME
+            </button>
+          </div>
+        </section>
+        <section class="row controls" v-else key="actionButtons">
+          <div class="col-sm-12">
+            <button class="btn btn-danger" @click="attack">ATTACK</button>
+            <button class="btn btn-warning" @click="specialAttack">
+              SPECIAL ATTACK
+            </button>
+            <button class="btn btn-info" @click="heal">HEAL</button>
+            <button class="btn btn-default" @click="giveUp">GIVE UP</button>
+          </div>
+        </section>
+      </transition>
+      <transition name="fade">
+        <section class="row log" v-if="turns.length > 0">
+          <div class="col-sm-12">
+            <ul>
+              <transition-group name="fade">
+                <li v-for="(turn,index) in turns" :class="{'player-turn': turn.isPlayer,'monster-turn': !turn.isPlayer}"
+                  :key="index">
+                  {{turn.text}}
+                </li>
+              </transition-group>
+            </ul>
+          </div>
+        </section>
+      </transition>
     </div>
-    <script src="app.js"></script>
-  </body>
+  </div>
+  <script src="app.js"></script>
+</body>
+
 </html>

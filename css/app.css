@@ -93,3 +93,39 @@ button {
 #give-up:hover {
     background-color: #c7c7c7;
 }
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    transition: opacity 1s;
+}
+
+.flip-enter-active {
+    animation: flip-in 0.5s ease-out forwards;
+}
+
+.flip-leave-active {
+    animation: flip-out 0.5s ease-out forwards;
+}
+
+@keyframes flip-in {
+    from {
+        transform: rotateY(90deg);
+    }
+
+    to {
+        transform: rotateY(0deg);
+    }
+}
+
+@keyframes flip-out {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(90deg);
+    }
+}
